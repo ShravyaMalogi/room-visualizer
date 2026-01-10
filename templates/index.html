@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Room visualizer
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
+<div class="container py-5">
+
+  <!-- HEADER -->
+  <header class="room-header text-center">
+    <h1 class="display-4 room-title">ROOM WALL VISUALIZER</h1>
+    <p class="lead room-subtitle">
+      Apply textures to the walls in your room.
+    </p>
+  </header>
+
+  <div class="row py-4">
+
+    <!-- LEFT : TEXTURE PANEL (DISABLED INITIALLY) -->
+    <div class="col-lg-3">
+      <div class="texture-panel disabled">
+        <h6 class="texture-title">Textures</h6>
+
+        <div class="texture-list">
+          {% for tex in textures %}
+          <img
+            src="{{ url_for('serve_texture', filename=tex) }}"
+            class="texture-thumb"
+            data-texture="{{ tex }}"
+            alt="texture">
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT : MAIN CONTENT -->
+    <div class="col-lg-9">
+      <div class="col-lg-8 mx-auto">
+
+        <!-- Upload Form -->
+        <form id="uploadForm"
+              action="{{ url_for('predict_image_room') }}"
+              enctype="multipart/form-data"
+              method="POST">
+
+          <!-- File Upload -->
+          <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+            <input class="form-control border-0" id="upload" name="file" type="file">
+
+            <label class="font-weight-light text-muted" for="upload" id="upload-label">
+              Choose file
+            </label>
+
+            <div class="input-group-append">
+              <label class="btn btn-light m-0 rounded-pill px-4" for="upload">
+                <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                <small class="text-uppercase font-weight-bold text-muted">
+                  Choose file
+                </small>
+              </label>
+            </div>
+          </div>
+
+          <!-- Loading Message -->
+          <div id="loadingMessage" class="loading-message">
+            <div class="text-white text-center">
+              <p class="lead mb-3">
+                Please wait while the image is being processed...
+              </p>
+            </div>
+          </div>
+
+          <!-- Note -->
+          <p class="upload-note text-center">
+            The image uploaded will be rendered inside the box below.
+          </p>
+
+          <!-- Image Preview -->
+          <div class="image-area mt-4">
+            <img
+              id="imageResult"
+              src="{{ room }}"
+              class="img-fluid rounded shadow-sm mx-auto d-block"
+              alt="Room Preview">
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/image_upload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/texture_click.js') }}"></script>
+{% endblock %}

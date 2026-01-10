@@ -1,0 +1,6 @@
+__pycache__/
+.env
+env/
+wall_estimation/weight/model_retrained.ckpt
+*.pth
+wall_segmentation/weights/

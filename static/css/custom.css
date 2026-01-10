@@ -1,0 +1,157 @@
+#upload {
+    opacity: 0;
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    border: 2px dashed rgba(255, 255, 255, 0.7);
+    padding: 4rem;
+    position: relative;
+}
+
+.image-area::before {
+    content: 'Image Preview';
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    z-index: 1;
+}
+
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
+
+
+body {
+    min-height: 100vh;
+    background-color: #dab7b7; /* dark slate */
+    color: #dab7b7;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Header */
+.room-header {
+  color: #cf8618;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.room-title {
+  color: #cf8618;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.room-subtitle {
+  color: #fff5c8;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+}
+
+/* Loading */
+.loading-message {
+  display: none;
+}
+
+.loading-gif {
+  width: 25px;
+  height: 25px;
+}
+
+/* Upload note */
+.upload-note {
+  color: #6b7280;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* Buttons */
+.action-btn {
+  background-color: #cf8618;
+  color: #fff5c8;
+  border: none;
+}
+
+.action-btn:hover {
+  opacity: 0.9;
+  color: #fff5c8;
+}
+
+/* Utility */
+.loading {
+  display: none;
+  text-align: center;
+}
+
+.room-header {
+  color: #cf8618;
+}
+
+.room-title {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.room-subtitle {
+  color: #fff5c8;
+}
+
+/* Texture panel */
+.texture-panel {
+  background: rgba(0,0,0,0.25);
+  padding: 12px;
+  border-radius: 12px;
+  height: 520px;
+}
+
+.texture-title {
+  color: #fff5c8;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.texture-list {
+  overflow-y: auto;
+  max-height: 460px;
+}
+
+/* Texture thumbnails */
+.texture-thumb {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 2px solid transparent;
+}
+
+.texture-thumb:hover {
+  transform: scale(1.05);
+  border-color: #cf8618;
+}
+
+/* Upload note */
+.upload-note {
+  color: #fff5c8;
+  font-style: italic;
+}
+
+.texture-panel.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
