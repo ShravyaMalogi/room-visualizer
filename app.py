@@ -64,40 +64,40 @@ def main():
 @app.route("/prediction", methods=["POST"])
 def predict_image_room():
     try:
-        if "file" in request.files and request.files["file"].filename != "":
-            img_stream = request.files["file"].stream
+        if "image" not in request.files:
+            return jsonify({"error": "No image uploaded"}), 400
 
-            img = Image.open(img_stream)
-            img = np.asarray(img)
+        file = request.files["image"]
+        if file.filename == "":
+            return jsonify({"error": "Empty filename"}), 400
 
-            if img.shape[0] > 600:
-                img = image_resize(img, height=600)
+        img = Image.open(file.stream)
+        img = np.asarray(img)
 
-            img = Image.fromarray(img)
+        if img.shape[0] > 600:
+            img = image_resize(img, height=600)
 
-            # ✅ SAVE ONLY ROOM IMAGE
-            img.save(ROOM_IMAGE)
+        img = Image.fromarray(img)
+        img.save(ROOM_IMAGE)
 
-            # Wall segmentation
-            mask1 = wall_segmenting(model, ROOM_IMAGE)
+        mask1 = wall_segmenting(model, ROOM_IMAGE)
+        estimation_map = wall_estimation(ROOM_IMAGE)
+        corners = get_wall_corners(estimation_map)
 
-            estimation_map = wall_estimation(ROOM_IMAGE)
-            corners = get_wall_corners(estimation_map)
+        mask2 = np.zeros(mask1.shape, dtype=np.uint8)
+        for pts in corners:
+            cv2.fillPoly(mask2, [np.array(pts)], 255)
 
-            mask2 = np.zeros(mask1.shape, dtype=np.uint8)
-            for pts in corners:
-                cv2.fillPoly(mask2, [np.array(pts)], 255)
+        mask = mask1 & np.bool_(mask2)
 
-            mask = mask1 & np.bool_(mask2)
+        np.save(MASK_PATH, mask)
+        np.save(CORNERS_PATH, np.array(corners))
 
-            np.save(MASK_PATH, mask)
-            np.save(CORNERS_PATH, np.array(corners))
-
-        return redirect("/room")
+        return jsonify({"status": "success"})
 
     except Exception as e:
         print(e)
-        return "Error", 500
+        return jsonify({"error": "Server error"}), 500
 
 
 # --------------------------------------------------
