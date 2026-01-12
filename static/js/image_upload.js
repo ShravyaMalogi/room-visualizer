@@ -12,7 +12,7 @@ document.getElementById("upload").addEventListener("change", async function () {
 
     // Prepare form data
     const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
+    formData.append("image", fileInput.files[0]);
 
     // Show loading
     const loading = document.getElementById("loadingMessage");
